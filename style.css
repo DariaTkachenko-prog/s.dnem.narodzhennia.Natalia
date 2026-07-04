@@ -1,0 +1,384 @@
+/* === Загальні стилі === */
+html { /* подстраховка от горизонтального скролла */
+  overflow-x: hidden;
+}
+
+*, *::before, *::after { /* корректная модель коробки везде */
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0 url('bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #2E003E; /* дуже темно-сиреневий */
+  text-align: center;
+  font-family: var(--main-font);
+  overflow-x: hidden;      /* запрещаем горизонтальный скролл */
+  overflow-y: auto;        /* на ПК разрешаем вертикальный скролл */
+  box-sizing: border-box;
+}
+
+.card {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 900px;
+  width: 95%;
+  border-radius: 20px;
+}
+
+/* === Заголовок === */
+h1 {
+  margin-top: 10px;        
+  margin-bottom: 20px;
+  line-height: 1.2;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.h1-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  color: #2E003E; /* дуже темно-сиреневий */
+  font-size: 2.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.h1-line.line2 {
+  animation-delay: 0.3s;
+  font-size: 1.8rem;
+  line-height: 1.3;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* === Плавне підстрибування === */
+@keyframes floatSubtle {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+.floating { animation: floatSubtle 2s ease-in-out infinite; }
+
+/* === Зображення кульки === */
+#smiley {
+  width: 320px;
+  max-width: 100%;
+  cursor: pointer;
+  margin: 90px auto 0;     /* поднят выше (было 120px) */
+  display: block;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+#smiley:hover { transform: scale(1.05); }
+#smiley.hidden { opacity: 0; visibility: hidden; }
+
+/* === Кнопка-підказка === */
+.click-text {
+  position: absolute;
+  top: 32%;                /* если перекрывает — уменьшай это число */
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #fff;
+  background-color: #5C386E;
+
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  width: max-content;
+  min-width: 200px;
+  max-width: 260px;
+  white-space: pre-line;
+  line-height: 1.3;
+  text-align: center;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%      { transform: translateX(-50%) scale(1.1); }
+}
+
+/* Утилітарні класи */
+.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* === Блок привітання === */
+.congrats-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  max-width: 1000px;
+  margin: -500px auto 10px;   /* TUNE HERE (ПК): меньше/ближе к 0 — ниже; больше отрицательное — выше */
+  padding: 0 5px;
+  opacity: 0;
+  transform: scale(0.97);
+  filter: blur(6px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1.61, 0.36, 1), filter 0.6s ease;
+  visibility: hidden;
+  pointer-events: none;
+}
+.congrats-wrapper.show-dissolve {
+  opacity: 1; transform: scale(1); filter: blur(0);
+  visibility: visible; pointer-events: auto;
+}
+
+.congrats-text {
+  flex: 1 1 300px;
+  max-width: 800px;
+  min-width: 250px;
+  color: #2E003E;
+  font-weight: 600;
+  text-align: left;
+  margin-top: -300px; /* мягче, было -60px */
+}
+.congrats-text p {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.1;
+    font-family: var(--main-font);
+  color: #2E003E;
+}
+
+.signature {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2E003E;
+  margin-top: 30px;
+  font-family: 'Roboto', sans-serif;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInSignature 0.8s ease forwards;
+  animation-delay: 1s;
+}
+
+.congrats-photo {
+  flex: 0 1 400px;
+  max-width: 100%;
+  align-self: center;
+    margin-top: -200px !important;   /* TUNE HERE (ПК):  */
+  margin-left: 0;
+}
+.congrats-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.congrats-text .line {
+  display: block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.congrats-text .line.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeInSignature {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === Конфеті === */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* === Адаптив (мобайл) === */
+@media screen and (max-width: 768px) {
+  /* Фон: тянуть на весь экран без обрезки */
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh !important;                 /* экранная высота */
+    margin: 0;
+    box-sizing: border-box;
+    background: #f0f0f0 url('bg-mobile.jpg') no-repeat center center !important;
+    background-size: 100% 100% !important;    /* тянем по ширине и высоте */
+  }
+
+  /* Карточка — якорь для кнопки */
+  .card {
+    margin: 16px auto;
+    padding: 15px;
+    width: 92%;
+    position: relative; /* нужно для абсолютной кнопки */
+    overflow: visible;
+  }
+
+  /* Заголовок можно немного опустить для «воздуха» */
+  h1 { margin-top: 20px !important; }
+  .h1-line { font-size: 1.4rem !important; }
+  .h1-line.line2 { font-size: 1.2rem !important; }
+
+  .congrats-text p { font-size: 0.98rem !important; }
+
+  /* КНОПКА: по центру, НАД шариком, всегда поверх */
+  .click-text {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 180px !important;     /* подстрой: 150–200px */
+    z-index: 30 !important;
+    font-size: 0.95rem !important;
+    padding: 6px 14px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Общий блок — выше, чтобы композиция была компактнее */
+  .congrats-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    margin: -300px auto 12px !important;  /* ↑ весь блок выше */
+    padding: 0 10px;
+  }
+
+  /* Текст — ещё выше (через !important, как просили) */
+  .congrats-text {
+    order: 1;
+    text-align: center !important;
+    padding: 0 8px !important;
+    margin: -320px auto 0 !important;     /* ↑ текст выше */
+    max-width: 640px !important;
+  }
+
+  /* Фото — чуть ниже, чтобы не налезало */
+  .congrats-photo {
+    order: 2;
+    width: 100% !important;
+    height: auto !important;
+    margin: 40px auto 0 !important;       /* ↓ фото ниже */
+  }
+
+  /* Сам шарик — остаётся сверху уровнем, но под кнопкой */
+  #smiley {
+    position: relative !important;
+    z-index: 20 !important;   /* ниже кнопки (кнопка z-index:30) */
+    margin-top: 120px !important;
+    margin-bottom: 48px !important;
+    width: 310px !important;  /* чтобы не плясал при разных ширинах */
+    max-width: 100% !important;
+  }
+
+  .signature { font-size: 0.95rem !important; margin-top: 16px !important; }
+}
+
+
+/* === FIX: шарик не прячется и всегда сверху === */
+#smiley{
+  position: relative;   /* даём контекст для z-index */
+  z-index: 2;           /* поднимаем над остальным контентом */
+  margin-bottom: 48px;  /* запас снизу, чтобы не казалось, что он "обрезан" */
+}
+
+/* блок поздравления ниже по слою, чтобы не накрывал шарик */
+.congrats-wrapper{
+  position: relative;
+  z-index: 1;
+}
+
+/* Чуть уменьшаем агрессивность подъёма, чтобы низ страницы не "съедал" шарик */
+@media (min-width: 769px){
+  .congrats-wrapper{ margin: -240px auto 20px; }  /* было -420/-380 → мягче */
+  .congrats-photo{   margin-top: -80px; }         /* было -120/-400 → ниже фото */
+}
+
+/* Если хочешь шарик меньше именно на ПК */
+@media (min-width: 769px){
+  #smiley{ width: 400px; } /* было 300px */
+}
+
+/* На мобильных: фото ниже, текст выше, чтобы не налезали на шарик */
+@media (max-width: 768px){
+  .congrats-photo { 
+    margin: -70px auto 0 !important;  /* !important внутри свойства */
+  }   
+  .congrats-text {  
+    margin-top: -350px !important;      /* тоже с !important */
+  }
+}
+
+/* === Запрет вертикального скролла на ПК === */
+@media screen and (min-width: 769px) {
+  html, body {
+    overflow-y: hidden !important; /* отключаем вертикальный скролл */
+  }
+}
+
+
+/* === OVERRIDE: синяя кнопка-подсказка === */
+.click-text {
+  background-color: #3F1774!important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+  box-shadow: 0 8px 24px rgba(92, 56, 110, 0.35), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+  border: 0 !important;
+  cursor: pointer !important;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, opacity .25s ease !important;
+  animation: pulse-blue 1.8s infinite !important;
+}
+.click-text:hover,
+.click-text:focus {
+  background-color: #4B2D59;
+
+  box-shadow: 0 10px 28px rgba(75, 45, 89, 0.45), inset 0 1px 0 rgba(255,255,255,0.3) !important;
+  outline: none !important;
+}
+@keyframes pulse-blue {
+  0%, 100% { transform: translateX(-50%) translateY(-50%) scale(1); }
+  50%      { transform: translateX(-50%) translateY(-50%) scale(1.06); }
+}
+@media (max-width: 768px){
+  .click-text{
+    top: 210px !important;
+    padding: 8px 16px !important;
+    font-size: .98rem !important;
+    border-radius: 10px !important;
+  }
+}
+
+/* === Mobile tune: raise blocks and avoid overlap === */
+@media (max-width: 768px){
+  .congrats-wrapper{
+    margin: -200px auto 18px !important;
+    padding: 0 10px;
+  }
+  .congrats-text{
+    margin-top: -192px !important;
+    text-align: center !important;
+  }
+  .congrats-photo{
+    margin-top: -120px !important;
+  }
+}
+@media (max-width: 768px) {
+  .signature {
+    margin-top: -10px !important;
+  }
+}
